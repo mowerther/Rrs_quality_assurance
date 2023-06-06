@@ -119,7 +119,7 @@ def qa_scoring(test_rrs, test_lambda):
         raise ValueError('Input lambda array must equal reference lambda array.')
 
     # Normalize the test_rrs using its L2 norm
-    nrrs = test_rrs / np.sqrt(np.nansum(test_rrs**2))
+    nrrs = test_rrs / np.linalg.norm(test_rrs)
 
     # Normalize each row of ref_nrrs using their L2 norms
     ref_nrrs_corr = ref_nrrs / np.linalg.norm(ref_nrrs, axis=1)[:, np.newaxis]
