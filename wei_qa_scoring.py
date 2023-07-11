@@ -29,7 +29,7 @@ def qa_scoring(test_rrs, test_lambda):
 
     # Wavelengths for ref_nrrs (1x9 matrix)
     ref_lambda = np.array([
-        4.1200000e+02, 4.4300000e+02, 4.8800000e+02, 5.1000000e+02, 5.3100000e+02, 5.4700000e+02, 5.5500000e+02, 6.6700000e+02, 6.7800000e+02
+        412, 443, 488, 510, 531, 547, 555, 667, 678
     ])
 
     # Normalized Rrs spectra per-determined from water clustering (23x9 matrix)
@@ -117,6 +117,10 @@ def qa_scoring(test_rrs, test_lambda):
     # Raise an error if the input lambda arrays do not match the reference lambda arrays
     if not list(test_lambda) == list(ref_lambda):
         raise ValueError('Input lambda array must equal reference lambda array.')
+    
+    # if any row is entirely NaN, return 999 for those
+    if np.isnan(test_rrs).any():
+        return 999, 999, 999, 999
 
     # Normalize the test_rrs using its L2 norm
     nrrs = test_rrs / np.sqrt(np.nansum(test_rrs**2))
